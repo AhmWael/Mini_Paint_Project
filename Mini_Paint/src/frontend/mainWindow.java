@@ -1,9 +1,13 @@
 package frontend;
 
+import backend.CircleShape;
+import backend.Draw;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 public class mainWindow extends JFrame {
     private JPanel mainPanel;
@@ -15,6 +19,8 @@ public class mainWindow extends JFrame {
     private JButton squareButton;
     private JButton rectangleButton;
     private JPanel canvasPanel;
+    private Draw draw;
+    private Canvas canvas;
 
     public mainWindow() {
         setContentPane(mainPanel);
@@ -23,10 +29,20 @@ public class mainWindow extends JFrame {
         setTitle("Vector Drawing Application");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        
+
+        canvas = new Canvas();
+        canvas.setPreferredSize(canvasPanel.getSize());
+        canvas.setBackground(Color.WHITE);
+        canvasPanel.add(canvas);
+
+        draw = new Draw();
+
         circleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                CirclePropertiesDialog dialog = new CirclePropertiesDialog(mainWindow.this);
+                chooseShapeBox.addItem("Circle");
+                //dialog.dispose();
 
             }
         });
@@ -63,6 +79,20 @@ public class mainWindow extends JFrame {
     }
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         new mainWindow();
+    }
+
+    public void handleCircleProperties(String x, String y, String radius) {
+        CircleShape circle = new CircleShape();
+        circle.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
+        circle.setProperties(Map.of("radius", Double.parseDouble(radius)));
+        circle.setColor(Color.BLACK);
+        circle.draw(canvas.getGraphics());
+        draw.addShape(circle);
     }
 }

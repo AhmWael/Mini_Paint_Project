@@ -7,6 +7,9 @@ public class SquarePropertiesDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JTextField textField3;
 
     public SquarePropertiesDialog() {
         setContentPane(contentPane);

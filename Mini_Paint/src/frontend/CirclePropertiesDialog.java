@@ -7,12 +7,21 @@ public class CirclePropertiesDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTextField xTF;
+    private JTextField yTF;
+    private JTextField radiusTF;
 
-    public CirclePropertiesDialog() {
+    private final mainWindow mainForm;
+
+    public CirclePropertiesDialog(mainWindow mainForm) {
+        this.mainForm = mainForm;
         setContentPane(contentPane);
-        setModal(true);
         setTitle("Circle Properties");
         getRootPane().setDefaultButton(buttonOK);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setModal(true);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -43,7 +52,15 @@ public class CirclePropertiesDialog extends JDialog {
     }
 
     private void onOK() {
-        // add your code here
+        System.out.println("OK");
+        String x = xTF.getText();
+        String y = yTF.getText();
+        String radius = radiusTF.getText();
+        if (x.isEmpty() || y.isEmpty() || radius.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        mainForm.handleCircleProperties(x, y, radius);
         dispose();
     }
 
@@ -52,10 +69,10 @@ public class CirclePropertiesDialog extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
-        CirclePropertiesDialog dialog = new CirclePropertiesDialog();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
-    }
+//    public static void main(String[] args) {
+//        CirclePropertiesDialog dialog = new CirclePropertiesDialog();
+//        dialog.pack();
+//        dialog.setVisible(true);
+//        System.exit(0);
+//    }
 }
