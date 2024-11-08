@@ -8,6 +8,15 @@ public class CircleShape implements Shape{
     private Map<String, Double> properties;
     private Color color;
     private Color fillColor;
+    private String name;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     @Override
     public void setPosition(Point position) {
