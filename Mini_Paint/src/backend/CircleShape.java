@@ -62,6 +62,7 @@ public class CircleShape implements Shape{
     public void draw(Graphics canvas) {
         canvas.setColor(color);
         if(fillColor != null) {
+            canvas.setColor(fillColor);
             canvas.fillOval(position.x, position.y, properties.get("radius").intValue(), properties.get("radius").intValue());
         }
         canvas.drawOval(position.x, position.y, properties.get("radius").intValue(), properties.get("radius").intValue());

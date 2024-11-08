@@ -155,13 +155,38 @@ public class mainWindow extends JFrame {
         colorizeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String selectedShape = (String) chooseShapeBox.getSelectedItem();
+                if (selectedShape == null) {
+                    return;
+                }
+                Color color = JColorChooser.showDialog(null, "Choose a color", Color.BLACK);
+                Shape[] shapes = draw.getShapes();
+                for (Shape shape : shapes) {
+                    if (shape.getName().equals(selectedShape)) {
+                        shape.setFillColor(color);
+                        shape.draw(canvas.getGraphics());
+                        break;
+                    }
+                }
             }
         });
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String selectedShape = (String) chooseShapeBox.getSelectedItem();
+                if (selectedShape == null) {
+                    return;
+                }
+                Shape[] shapes = draw.getShapes();
+                for (Shape shape : shapes) {
+                    if (shape.getName().equals(selectedShape)) {
+                        draw.removeShape(shape);
+                        chooseShapeBox.removeItem(selectedShape);
+                        break;
+                    }
+                }
+                canvas.getGraphics().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                draw.refresh(canvas.getGraphics());
             }
         });
     }
