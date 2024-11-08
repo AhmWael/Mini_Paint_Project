@@ -1,21 +1,26 @@
 package frontend;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class SquarePropertiesDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
+    private JTextField xTF;
+    private JTextField yTF;
+    private JTextField lengthTF;
+    private String status;
+    private Canvas canvas;
 
-    public SquarePropertiesDialog() {
+    public SquarePropertiesDialog(Canvas canvas) {
+        this.canvas = canvas;
         setContentPane(contentPane);
-        setModal(true);
         setTitle("Square Properties");
         getRootPane().setDefaultButton(buttonOK);
+        pack();
+        setLocationRelativeTo(null);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -43,22 +48,47 @@ public class SquarePropertiesDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        setModal(true);
+        setVisible(true);
     }
 
     private void onOK() {
-        // add your code here
-        dispose();
+        status = "OK";
+        String x = xTF.getText();
+        String y = yTF.getText();
+        String length = lengthTF.getText();
+        if (x.isEmpty() || y.isEmpty() || length.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (!x.matches("^[0-9]*$") || !y.matches("^[0-9]*$") || !length.matches("^[0-9]*$")) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numbers", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (Integer.parseInt(x) > canvas.getWidth() || Integer.parseInt(y) > canvas.getHeight()) {
+            JOptionPane.showMessageDialog(this, "Coordinates out of bound!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        setVisible(false);
     }
 
     private void onCancel() {
-        // add your code here if necessary
+        status = "Cancel";
         dispose();
     }
 
-    public static void main(String[] args) {
-        SquarePropertiesDialog dialog = new SquarePropertiesDialog();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
+    public String getxTF() {
+        return xTF.getText();
+    }
+
+    public String getyTF() {
+        return yTF.getText();
+    }
+
+    public String getLengthTF() {
+        return lengthTF.getText();
+    }
+
+    public String getStatus() {
+        return status;
     }
 }
