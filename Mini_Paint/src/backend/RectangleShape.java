@@ -61,6 +61,9 @@ public class RectangleShape implements Shape {
     @Override
     public void draw(Graphics canvas) {
         canvas.setColor(color);
+        if(fillColor != null) {
+            canvas.fillRect(position.x, position.y, properties.get("width").intValue(), properties.get("height").intValue());
+        }
         canvas.drawRect(position.x, position.y, properties.get("width").intValue(), properties.get("height").intValue());
     }
 }

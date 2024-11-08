@@ -61,6 +61,6 @@ public class LineSegmentShape implements Shape{
     @Override
     public void draw(Graphics canvas) {
         canvas.setColor(color);
-        canvas.drawLine(position.x, position.y, position.x + properties.get("endX").intValue(), position.y + properties.get("endY").intValue());
+        canvas.drawLine(position.x, position.y, properties.get("x2").intValue(), properties.get("y2").intValue());
     }
 }

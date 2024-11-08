@@ -1,21 +1,27 @@
 package frontend;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class LinePropertiesDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
+    private JTextField x1TF;
+    private JTextField y1TF;
+    private JTextField x2TF;
+    private JTextField y2TF;
+    private String status;
+    private Canvas canvas;
 
-    public LinePropertiesDialog() {
+    public LinePropertiesDialog(Canvas canvas) {
+        this.canvas = canvas;
         setContentPane(contentPane);
-        setModal(true);
         setTitle("Line Segment Properties");
         getRootPane().setDefaultButton(buttonOK);
+        pack();
+        setLocationRelativeTo(null);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -43,22 +49,52 @@ public class LinePropertiesDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        setModal(true);
+        setVisible(true);
     }
 
     private void onOK() {
-        // add your code here
-        dispose();
+        status = "OK";
+        String x1 = x1TF.getText();
+        String y1 = y1TF.getText();
+        String x2 = x2TF.getText();
+        String y2 = y2TF.getText();
+        if (x1.isEmpty() || y1.isEmpty() || x2.isEmpty() || y2.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (!x1.matches("^[0-9]*$") || !y1.matches("^[0-9]*$") || !x2.matches("^[0-9]*$") || !y2.matches("^[0-9]*$")) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numbers", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (Integer.parseInt(x1) > canvas.getWidth() || Integer.parseInt(y1) > canvas.getHeight() || Integer.parseInt(x2) > canvas.getWidth() || Integer.parseInt(y2) > canvas.getHeight()) {
+            JOptionPane.showMessageDialog(this, "Coordinates out of bound!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        setVisible(false);
     }
 
     private void onCancel() {
-        // add your code here if necessary
+        status = "Cancel";
         dispose();
     }
 
-    public static void main(String[] args) {
-        LinePropertiesDialog dialog = new LinePropertiesDialog();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
+    public String getx1TF() {
+        return x1TF.getText();
+    }
+
+    public String gety1TF() {
+        return y1TF.getText();
+    }
+
+    public String getx2TF() {
+        return x2TF.getText();
+    }
+
+    public String gety2TF() {
+        return y2TF.getText();
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

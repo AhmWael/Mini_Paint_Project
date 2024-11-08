@@ -10,8 +10,8 @@ public class RectanglePropertiesDialog extends JDialog {
     private JButton buttonCancel;
     private JTextField xTF;
     private JTextField yTF;
-    private JTextField lengthTF;
     private JTextField widthTF;
+    private JTextField heightTF;
     private String status;
     private Canvas canvas;
 
@@ -58,15 +58,17 @@ public class RectanglePropertiesDialog extends JDialog {
         status = "OK";
         String x = xTF.getText();
         String y = yTF.getText();
-        String length = lengthTF.getText();
         String width = widthTF.getText();
-        if (x.isEmpty() || y.isEmpty() || length.isEmpty() || width.isEmpty()) {
+        String height = heightTF.getText();
+        if (x.isEmpty() || y.isEmpty() || height.isEmpty() || width.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (!x.matches("^[0-9]*$") || !y.matches("^[0-9]*$") || !length.matches("^[0-9]*$") || !width.matches("^[0-9]*$")) {
+        } else if (!x.matches("^[0-9]*$") || !y.matches("^[0-9]*$") || !height.matches("^[0-9]*$") || !width.matches("^[0-9]*$")) {
             JOptionPane.showMessageDialog(this, "Please enter valid numbers", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (Integer.parseInt(x) > canvas.getWidth() || Integer.parseInt(y) > canvas.getHeight()) {
+        } else if (Integer.parseInt(x) > canvas.getWidth() || Integer.parseInt(y) > canvas.getHeight()
+                || Integer.parseInt(x) + Integer.parseInt(width) > canvas.getWidth()
+                || Integer.parseInt(y) + Integer.parseInt(height) > canvas.getHeight()) {
             JOptionPane.showMessageDialog(this, "Coordinates out of bound!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -86,12 +88,12 @@ public class RectanglePropertiesDialog extends JDialog {
         return yTF.getText();
     }
 
-    public String getLengthTF() {
-        return lengthTF.getText();
-    }
-
     public String getWidthTF() {
         return widthTF.getText();
+    }
+
+    public String getHeightTF() {
+        return heightTF.getText();
     }
 
     public String getStatus() {

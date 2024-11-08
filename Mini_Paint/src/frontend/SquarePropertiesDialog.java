@@ -64,7 +64,9 @@ public class SquarePropertiesDialog extends JDialog {
         } else if (!x.matches("^[0-9]*$") || !y.matches("^[0-9]*$") || !length.matches("^[0-9]*$")) {
             JOptionPane.showMessageDialog(this, "Please enter valid numbers", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (Integer.parseInt(x) > canvas.getWidth() || Integer.parseInt(y) > canvas.getHeight()) {
+        } else if (Integer.parseInt(x) > canvas.getWidth() || Integer.parseInt(y) > canvas.getHeight()
+                || Integer.parseInt(x) + Integer.parseInt(length) > canvas.getWidth()
+                || Integer.parseInt(y) + Integer.parseInt(length) > canvas.getHeight()) {
             JOptionPane.showMessageDialog(this, "Coordinates out of bound!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }

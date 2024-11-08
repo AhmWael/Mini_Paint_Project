@@ -61,6 +61,9 @@ public class SquareShape implements Shape{
     @Override
     public void draw(Graphics canvas) {
         canvas.setColor(color);
+        if(fillColor != null) {
+            canvas.fillRect(position.x, position.y, properties.get("side").intValue(), properties.get("side").intValue());
+        }
         canvas.drawRect(position.x, position.y, properties.get("side").intValue(), properties.get("side").intValue());
     }
 }

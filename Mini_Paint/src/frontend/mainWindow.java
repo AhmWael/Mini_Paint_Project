@@ -1,9 +1,7 @@
 package frontend;
 
-import backend.CircleShape;
-import backend.Draw;
+import backend.*;
 import backend.Shape;
-import backend.SquareShape;
 
 import javax.swing.*;
 import java.awt.*;
@@ -70,7 +68,30 @@ public class mainWindow extends JFrame {
         lineSegmentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                LinePropertiesDialog dialog = new LinePropertiesDialog(canvas);
+                if(dialog.getStatus().equals("Cancel")) {
+                    return;
+                }
+                String x1 = dialog.getx1TF();
+                String y1 = dialog.gety1TF();
+                String x2 = dialog.getx2TF();
+                String y2 = dialog.gety2TF();
+                LineSegmentShape lineSegment = new LineSegmentShape();
+                Shape[] shapes = draw.getShapes();
+                int lineCount = 0;
+                for (Shape shape : shapes) {
+                    if (shape instanceof LineSegmentShape) {
+                        lineCount++;
+                    }
+                }
+                lineSegment.setName("Line" + (lineCount + 1));
+                lineSegment.setPosition(new Point(Integer.parseInt(x1), Integer.parseInt(y1)));
+                lineSegment.setProperties(Map.of("x2", Double.parseDouble(x2), "y2", Double.parseDouble(y2)));
+                lineSegment.setColor(Color.BLACK);
+                lineSegment.draw(canvas.getGraphics());
+                draw.addShape(lineSegment);
+                chooseShapeBox.addItem(lineSegment.getName());
+                dialog.dispose();
             }
         });
         squareButton.addActionListener(new ActionListener() {
@@ -104,7 +125,30 @@ public class mainWindow extends JFrame {
         rectangleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                RectanglePropertiesDialog dialog = new RectanglePropertiesDialog(canvas);
+                if(dialog.getStatus().equals("Cancel")) {
+                    return;
+                }
+                String x = dialog.getxTF();
+                String y = dialog.getyTF();
+                String width = dialog.getWidthTF();
+                String height = dialog.getHeightTF();
+                RectangleShape rectangle = new RectangleShape();
+                Shape[] shapes = draw.getShapes();
+                int rectangleCount = 0;
+                for (Shape shape : shapes) {
+                    if (shape instanceof RectangleShape) {
+                        rectangleCount++;
+                    }
+                }
+                rectangle.setName("Rectangle" + (rectangleCount + 1));
+                rectangle.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
+                rectangle.setProperties(Map.of("width", Double.parseDouble(width), "height", Double.parseDouble(height)));
+                rectangle.setColor(Color.BLACK);
+                rectangle.draw(canvas.getGraphics());
+                draw.addShape(rectangle);
+                chooseShapeBox.addItem(rectangle.getName());
+                dialog.dispose();
             }
         });
 
