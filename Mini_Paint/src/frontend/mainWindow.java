@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Map;
 
 public class mainWindow extends JFrame {
@@ -21,6 +22,7 @@ public class mainWindow extends JFrame {
     private JPanel canvasPanel;
     private Draw draw;
     private Canvas canvas;
+    private Map<String, Shape> shapesList;
 
     public mainWindow() {
         setContentPane(mainPanel);
@@ -29,6 +31,8 @@ public class mainWindow extends JFrame {
         setTitle("Vector Drawing Application");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+
+        shapesList = new HashMap<>();
 
         canvas = new Canvas();
         canvas.setPreferredSize(canvasPanel.getSize());
@@ -55,13 +59,13 @@ public class mainWindow extends JFrame {
                         circleCount++;
                     }
                 }
-                circle.setName("Circle" + (circleCount + 1));
+                shapesList.put("Circle" + (circleCount + 1), circle);
                 circle.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
                 circle.setProperties(Map.of("radius", Double.parseDouble(radius)));
                 circle.setColor(Color.BLACK);
                 circle.draw(canvas.getGraphics());
                 draw.addShape(circle);
-                chooseShapeBox.addItem(circle.getName());
+                chooseShapeBox.addItem("Circle" + (circleCount + 1));
                 dialog.dispose();
             }
         });
@@ -84,13 +88,13 @@ public class mainWindow extends JFrame {
                         lineCount++;
                     }
                 }
-                lineSegment.setName("Line" + (lineCount + 1));
+                shapesList.put("Line" + (lineCount + 1), lineSegment);
                 lineSegment.setPosition(new Point(Integer.parseInt(x1), Integer.parseInt(y1)));
                 lineSegment.setProperties(Map.of("x2", Double.parseDouble(x2), "y2", Double.parseDouble(y2)));
                 lineSegment.setColor(Color.BLACK);
                 lineSegment.draw(canvas.getGraphics());
                 draw.addShape(lineSegment);
-                chooseShapeBox.addItem(lineSegment.getName());
+                chooseShapeBox.addItem("Line" + (lineCount + 1));
                 dialog.dispose();
             }
         });
@@ -112,13 +116,13 @@ public class mainWindow extends JFrame {
                         squareCount++;
                     }
                 }
-                square.setName("Square" + (squareCount + 1));
+                shapesList.put("Square" + (squareCount + 1), square);
                 square.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
                 square.setProperties(Map.of("side", Double.parseDouble(side)));
                 square.setColor(Color.BLACK);
                 square.draw(canvas.getGraphics());
                 draw.addShape(square);
-                chooseShapeBox.addItem(square.getName());
+                chooseShapeBox.addItem("Square" + (squareCount + 1));
                 dialog.dispose();
             }
         });
@@ -141,13 +145,13 @@ public class mainWindow extends JFrame {
                         rectangleCount++;
                     }
                 }
-                rectangle.setName("Rectangle" + (rectangleCount + 1));
+                shapesList.put("Rectangle" + (rectangleCount + 1), rectangle);
                 rectangle.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
                 rectangle.setProperties(Map.of("width", Double.parseDouble(width), "height", Double.parseDouble(height)));
                 rectangle.setColor(Color.BLACK);
                 rectangle.draw(canvas.getGraphics());
                 draw.addShape(rectangle);
-                chooseShapeBox.addItem(rectangle.getName());
+                chooseShapeBox.addItem("Rectangle" + (rectangleCount + 1));
                 dialog.dispose();
             }
         });
@@ -160,14 +164,9 @@ public class mainWindow extends JFrame {
                     return;
                 }
                 Color color = JColorChooser.showDialog(null, "Choose a color", Color.BLACK);
-                Shape[] shapes = draw.getShapes();
-                for (Shape shape : shapes) {
-                    if (shape.getName().equals(selectedShape)) {
-                        shape.setFillColor(color);
-                        shape.draw(canvas.getGraphics());
-                        break;
-                    }
-                }
+                Shape shape = shapesList.get(selectedShape);
+                shape.setFillColor(color);
+                shape.draw(canvas.getGraphics());
             }
         });
         deleteButton.addActionListener(new ActionListener() {
@@ -177,14 +176,10 @@ public class mainWindow extends JFrame {
                 if (selectedShape == null) {
                     return;
                 }
-                Shape[] shapes = draw.getShapes();
-                for (Shape shape : shapes) {
-                    if (shape.getName().equals(selectedShape)) {
-                        draw.removeShape(shape);
-                        chooseShapeBox.removeItem(selectedShape);
-                        break;
-                    }
-                }
+                Shape shape = shapesList.get(selectedShape);
+                draw.removeShape(shape);
+                chooseShapeBox.removeItem(selectedShape);
+                shapesList.remove(selectedShape);
                 canvas.getGraphics().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 draw.refresh(canvas.getGraphics());
             }
