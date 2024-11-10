@@ -20,9 +20,13 @@ public class mainWindow extends JFrame {
     private JButton squareButton;
     private JButton rectangleButton;
     private JPanel canvasPanel;
-    private Draw draw;
+    private PaintEngine paintEngine;
     private Canvas canvas;
     private Map<String, Shape> shapesList;
+    private int circleCount;
+    private int lineCount;
+    private int squareCount;
+    private int rectangleCount;
 
     public mainWindow() {
         setContentPane(mainPanel);
@@ -39,7 +43,12 @@ public class mainWindow extends JFrame {
         canvas.setBackground(Color.WHITE);
         canvasPanel.add(canvas);
 
-        draw = new Draw();
+        paintEngine = new PaintEngine();
+
+        circleCount = 0;
+        lineCount = 0;
+        squareCount = 0;
+        rectangleCount = 0;
 
         circleButton.addActionListener(new ActionListener() {
             @Override
@@ -53,22 +62,17 @@ public class mainWindow extends JFrame {
                 String y = dialog.getyTF();
                 String radius = dialog.getRadiusTF();
                 CircleShape circle = new CircleShape();
-                Shape[] shapes = draw.getShapes();
-                int circleCount = 0;
-                for (Shape shape : shapes) {
-                    if (shape instanceof CircleShape) {
-                        circleCount++;
-                    }
-                }
-                shapesList.put("Circle" + (circleCount + 1), circle);
+                Shape[] shapes = paintEngine.getShapes();
+                circleCount++;
+                shapesList.put("Circle" + (circleCount), circle);
                 circle.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
                 circle.setProperties(Map.of("radius", Double.parseDouble(radius)));
                 circle.setColor(Color.BLACK);
                 circle.draw(canvas.getGraphics());
-                draw.addShape(circle);
-                chooseShapeBox.addItem("Circle" + (circleCount + 1));
+                paintEngine.addShape(circle);
+                chooseShapeBox.addItem("Circle" + (circleCount));
                 dialog.dispose();
-                chooseShapeBox.setSelectedItem("Circle" + (circleCount + 1));
+                chooseShapeBox.setSelectedItem("Circle" + (circleCount));
             }
         });
         lineSegmentButton.addActionListener(new ActionListener() {
@@ -83,22 +87,17 @@ public class mainWindow extends JFrame {
                 String x2 = dialog.getx2TF();
                 String y2 = dialog.gety2TF();
                 LineSegmentShape lineSegment = new LineSegmentShape();
-                Shape[] shapes = draw.getShapes();
-                int lineCount = 0;
-                for (Shape shape : shapes) {
-                    if (shape instanceof LineSegmentShape) {
-                        lineCount++;
-                    }
-                }
-                shapesList.put("Line" + (lineCount + 1), lineSegment);
+                Shape[] shapes = paintEngine.getShapes();
+                lineCount++;
+                shapesList.put("Line" + (lineCount), lineSegment);
                 lineSegment.setPosition(new Point(Integer.parseInt(x1), Integer.parseInt(y1)));
                 lineSegment.setProperties(Map.of("x2", Double.parseDouble(x2), "y2", Double.parseDouble(y2)));
                 lineSegment.setColor(Color.BLACK);
                 lineSegment.draw(canvas.getGraphics());
-                draw.addShape(lineSegment);
-                chooseShapeBox.addItem("Line" + (lineCount + 1));
+                paintEngine.addShape(lineSegment);
+                chooseShapeBox.addItem("Line" + (lineCount));
                 dialog.dispose();
-                chooseShapeBox.setSelectedItem("Line" + (lineCount + 1));
+                chooseShapeBox.setSelectedItem("Line" + (lineCount));
             }
         });
         squareButton.addActionListener(new ActionListener() {
@@ -112,22 +111,17 @@ public class mainWindow extends JFrame {
                 String y = dialog.getyTF();
                 String side = dialog.getLengthTF();
                 SquareShape square = new SquareShape();
-                Shape[] shapes = draw.getShapes();
-                int squareCount = 0;
-                for (Shape shape : shapes) {
-                    if (shape instanceof SquareShape) {
-                        squareCount++;
-                    }
-                }
-                shapesList.put("Square" + (squareCount + 1), square);
+                Shape[] shapes = paintEngine.getShapes();
+                squareCount++;
+                shapesList.put("Square" + (squareCount), square);
                 square.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
                 square.setProperties(Map.of("side", Double.parseDouble(side)));
                 square.setColor(Color.BLACK);
                 square.draw(canvas.getGraphics());
-                draw.addShape(square);
-                chooseShapeBox.addItem("Square" + (squareCount + 1));
+                paintEngine.addShape(square);
+                chooseShapeBox.addItem("Square" + (squareCount));
                 dialog.dispose();
-                chooseShapeBox.setSelectedItem("Square" + (squareCount + 1));
+                chooseShapeBox.setSelectedItem("Square" + (squareCount));
             }
         });
         rectangleButton.addActionListener(new ActionListener() {
@@ -142,22 +136,17 @@ public class mainWindow extends JFrame {
                 String width = dialog.getWidthTF();
                 String height = dialog.getHeightTF();
                 RectangleShape rectangle = new RectangleShape();
-                Shape[] shapes = draw.getShapes();
-                int rectangleCount = 0;
-                for (Shape shape : shapes) {
-                    if (shape instanceof RectangleShape) {
-                        rectangleCount++;
-                    }
-                }
-                shapesList.put("Rectangle" + (rectangleCount + 1), rectangle);
+                Shape[] shapes = paintEngine.getShapes();
+                rectangleCount++;
+                shapesList.put("Rectangle" + (rectangleCount), rectangle);
                 rectangle.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
                 rectangle.setProperties(Map.of("width", Double.parseDouble(width), "height", Double.parseDouble(height)));
                 rectangle.setColor(Color.BLACK);
                 rectangle.draw(canvas.getGraphics());
-                draw.addShape(rectangle);
-                chooseShapeBox.addItem("Rectangle" + (rectangleCount + 1));
+                paintEngine.addShape(rectangle);
+                chooseShapeBox.addItem("Rectangle" + (rectangleCount));
                 dialog.dispose();
-                chooseShapeBox.setSelectedItem("Rectangle" + (rectangleCount + 1));
+                chooseShapeBox.setSelectedItem("Rectangle" + (rectangleCount));
             }
         });
 
@@ -182,11 +171,11 @@ public class mainWindow extends JFrame {
                     return;
                 }
                 Shape shape = shapesList.get(selectedShape);
-                draw.removeShape(shape);
+                paintEngine.removeShape(shape);
                 chooseShapeBox.removeItem(selectedShape);
                 shapesList.remove(selectedShape);
                 canvas.getGraphics().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                draw.refresh(canvas.getGraphics());
+                paintEngine.refresh(canvas.getGraphics());
             }
         });
     }

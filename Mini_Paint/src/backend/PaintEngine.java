@@ -3,10 +3,10 @@ package backend;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Draw implements DrawingEngine{
+public class PaintEngine implements DrawingEngine{
     private ArrayList<Shape> shapes;
 
-    public Draw() {
+    public PaintEngine() {
         shapes = new ArrayList<>();
     }
 
