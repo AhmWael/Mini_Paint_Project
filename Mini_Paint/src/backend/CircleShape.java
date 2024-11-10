@@ -10,8 +10,15 @@ public class CircleShape extends AbstractShape {
         canvas.setColor(super.getColor());
         if(super.getFillColor() != null) {
             canvas.setColor(super.getFillColor());
-            canvas.fillOval(super.getPosition().x, super.getPosition().y, super.getProperties().get("radius").intValue(), super.getProperties().get("radius").intValue());
+            canvas.fillOval(super.getPosition().x - super.getProperties().get("radius").intValue()
+                    , super.getPosition().y - super.getProperties().get("radius").intValue()
+                    , super.getProperties().get("radius").intValue() * 2
+                    , super.getProperties().get("radius").intValue() * 2);
         }
-        canvas.drawOval(super.getPosition().x, super.getPosition().y, super.getProperties().get("radius").intValue(), super.getProperties().get("radius").intValue());
+
+        canvas.drawOval(super.getPosition().x - super.getProperties().get("radius").intValue()
+                , super.getPosition().y - super.getProperties().get("radius").intValue()
+                , super.getProperties().get("radius").intValue() * 2
+                , super.getProperties().get("radius").intValue() * 2);
     }
 }
