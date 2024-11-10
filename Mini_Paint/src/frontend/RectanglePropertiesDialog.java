@@ -12,6 +12,7 @@ public class RectanglePropertiesDialog extends JDialog {
     private JTextField yTF;
     private JTextField widthTF;
     private JTextField heightTF;
+    private JButton colorButton;
     private String status;
     private Canvas canvas;
 
@@ -22,6 +23,8 @@ public class RectanglePropertiesDialog extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
         pack();
         setLocationRelativeTo(null);
+
+        colorButton.setBackground(Color.BLACK);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -49,6 +52,16 @@ public class RectanglePropertiesDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        colorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Color color = JColorChooser.showDialog(null, "Choose a color", Color.BLACK);
+                if (color != null) {
+                    colorButton.setBackground(color);
+                }
+            }
+        });
 
         setModal(true);
         setVisible(true);
@@ -94,6 +107,10 @@ public class RectanglePropertiesDialog extends JDialog {
 
     public String getHeightTF() {
         return heightTF.getText();
+    }
+
+    public Color getColor() {
+        return colorButton.getBackground();
     }
 
     public String getStatus() {
