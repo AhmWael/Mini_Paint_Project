@@ -45,6 +45,7 @@ public class mainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CirclePropertiesDialog dialog = new CirclePropertiesDialog(canvas);
+
                 if(dialog.getStatus().equals("Cancel")) {
                     return;
                 }
@@ -67,6 +68,7 @@ public class mainWindow extends JFrame {
                 draw.addShape(circle);
                 chooseShapeBox.addItem("Circle" + (circleCount + 1));
                 dialog.dispose();
+                chooseShapeBox.setSelectedItem("Circle" + (circleCount + 1));
             }
         });
         lineSegmentButton.addActionListener(new ActionListener() {
@@ -96,6 +98,7 @@ public class mainWindow extends JFrame {
                 draw.addShape(lineSegment);
                 chooseShapeBox.addItem("Line" + (lineCount + 1));
                 dialog.dispose();
+                chooseShapeBox.setSelectedItem("Line" + (lineCount + 1));
             }
         });
         squareButton.addActionListener(new ActionListener() {
@@ -124,6 +127,7 @@ public class mainWindow extends JFrame {
                 draw.addShape(square);
                 chooseShapeBox.addItem("Square" + (squareCount + 1));
                 dialog.dispose();
+                chooseShapeBox.setSelectedItem("Square" + (squareCount + 1));
             }
         });
         rectangleButton.addActionListener(new ActionListener() {
@@ -153,6 +157,7 @@ public class mainWindow extends JFrame {
                 draw.addShape(rectangle);
                 chooseShapeBox.addItem("Rectangle" + (rectangleCount + 1));
                 dialog.dispose();
+                chooseShapeBox.setSelectedItem("Rectangle" + (rectangleCount + 1));
             }
         });
 
