@@ -13,9 +13,9 @@ public class SquarePropertiesDialog extends JDialog {
     private JTextField lengthTF;
     private JButton colorButton;
     private String status;
-    private Canvas canvas;
+    private CanvasPanel canvas;
 
-    public SquarePropertiesDialog(Canvas canvas) {
+    public SquarePropertiesDialog(CanvasPanel canvas) {
         this.canvas = canvas;
         setContentPane(contentPane);
         setTitle("Square Properties");

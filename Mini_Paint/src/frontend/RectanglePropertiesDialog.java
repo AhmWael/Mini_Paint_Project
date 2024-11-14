@@ -14,9 +14,9 @@ public class RectanglePropertiesDialog extends JDialog {
     private JTextField heightTF;
     private JButton colorButton;
     private String status;
-    private Canvas canvas;
+    private CanvasPanel canvas;
 
-    public RectanglePropertiesDialog(Canvas canvas) {
+    public RectanglePropertiesDialog(CanvasPanel canvas) {
         this.canvas = canvas;
         setContentPane(contentPane);
         setTitle("Rectangle Properties");

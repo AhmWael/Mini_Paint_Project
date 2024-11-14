@@ -13,9 +13,9 @@ public class CirclePropertiesDialog extends JDialog {
     private JTextField radiusTF;
     private JButton colorButton;
     private String status;
-    private Canvas canvas;
+    private CanvasPanel canvas;
 
-    public CirclePropertiesDialog(Canvas canvas) {
+    public CirclePropertiesDialog(CanvasPanel canvas) {
         this.canvas = canvas;
         setContentPane(contentPane);
         setTitle("Circle Properties");

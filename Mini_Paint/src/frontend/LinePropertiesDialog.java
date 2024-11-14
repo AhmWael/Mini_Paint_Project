@@ -14,9 +14,9 @@ public class LinePropertiesDialog extends JDialog {
     private JTextField y2TF;
     private JButton colorButton;
     private String status;
-    private Canvas canvas;
+    private CanvasPanel canvas;
 
-    public LinePropertiesDialog(Canvas canvas) {
+    public LinePropertiesDialog(CanvasPanel canvas) {
         this.canvas = canvas;
         setContentPane(contentPane);
         setTitle("Line Segment Properties");

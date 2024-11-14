@@ -24,7 +24,7 @@ public class mainWindow extends JFrame {
     private JButton rectangleButton;
     private JPanel canvasPanel;
     private PaintEngine paintEngine;
-    private Canvas canvas;
+    private CanvasPanel canvas;
     private Map<String, Shape> shapesList;
     private int circleCount;
     private int lineCount;
@@ -40,13 +40,11 @@ public class mainWindow extends JFrame {
         setVisible(true);
 
         shapesList = new HashMap<>();
-
-        canvas = new Canvas();
-        canvas.setPreferredSize(canvasPanel.getSize());
-        canvas.setBackground(Color.WHITE);
-        canvasPanel.add(canvas);
-
         paintEngine = new PaintEngine();
+
+        canvas = new CanvasPanel(paintEngine);
+        canvas.setPreferredSize(canvasPanel.getSize());
+        canvasPanel.add(canvas);
 
         circleCount = 0;
         lineCount = 0;
@@ -72,11 +70,11 @@ public class mainWindow extends JFrame {
                 circle.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
                 circle.setProperties(Map.of("radius", Double.parseDouble(radius)));
                 circle.setColor(color);
-                circle.draw(canvas.getGraphics());
                 paintEngine.addShape(circle);
                 chooseShapeBox.addItem("Circle" + (circleCount));
-                dialog.dispose();
                 chooseShapeBox.setSelectedItem("Circle" + (circleCount));
+                canvas.repaint();
+                dialog.dispose();
             }
         });
         lineSegmentButton.addActionListener(new ActionListener() {
@@ -98,11 +96,11 @@ public class mainWindow extends JFrame {
                 lineSegment.setPosition(new Point(Integer.parseInt(x1), Integer.parseInt(y1)));
                 lineSegment.setProperties(Map.of("x2", Double.parseDouble(x2), "y2", Double.parseDouble(y2)));
                 lineSegment.setColor(color);
-                lineSegment.draw(canvas.getGraphics());
                 paintEngine.addShape(lineSegment);
                 chooseShapeBox.addItem("Line" + (lineCount));
-                dialog.dispose();
                 chooseShapeBox.setSelectedItem("Line" + (lineCount));
+                dialog.dispose();
+                canvas.repaint();
             }
         });
         squareButton.addActionListener(new ActionListener() {
@@ -123,11 +121,11 @@ public class mainWindow extends JFrame {
                 square.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
                 square.setProperties(Map.of("side", Double.parseDouble(side)));
                 square.setColor(color);
-                square.draw(canvas.getGraphics());
                 paintEngine.addShape(square);
                 chooseShapeBox.addItem("Square" + (squareCount));
-                dialog.dispose();
                 chooseShapeBox.setSelectedItem("Square" + (squareCount));
+                dialog.dispose();
+                canvas.repaint();
             }
         });
         rectangleButton.addActionListener(new ActionListener() {
@@ -149,11 +147,11 @@ public class mainWindow extends JFrame {
                 rectangle.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
                 rectangle.setProperties(Map.of("width", Double.parseDouble(width), "height", Double.parseDouble(height)));
                 rectangle.setColor(color);
-                rectangle.draw(canvas.getGraphics());
                 paintEngine.addShape(rectangle);
                 chooseShapeBox.addItem("Rectangle" + (rectangleCount));
-                dialog.dispose();
                 chooseShapeBox.setSelectedItem("Rectangle" + (rectangleCount));
+                dialog.dispose();
+                canvas.repaint();
             }
         });
 
@@ -181,8 +179,8 @@ public class mainWindow extends JFrame {
                 paintEngine.removeShape(shape);
                 chooseShapeBox.removeItem(selectedShape);
                 shapesList.remove(selectedShape);
-                canvas.getGraphics().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                paintEngine.refresh(canvas.getGraphics());
+                //canvas.getGraphics().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                canvas.repaint();
             }
         });
     }
@@ -196,4 +194,19 @@ public class mainWindow extends JFrame {
         new mainWindow();
     }
 
+}
+
+class CanvasPanel extends JPanel {
+    private PaintEngine paintEngine;
+
+    public CanvasPanel(PaintEngine paintEngine) {
+        this.paintEngine = paintEngine;
+        setBackground(Color.WHITE);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        paintEngine.refresh(g);
+    }
 }
