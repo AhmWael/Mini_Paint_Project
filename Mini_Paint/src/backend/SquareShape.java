@@ -5,15 +5,6 @@ import java.util.Map;
 
 public class SquareShape extends AbstractShape {
 
-    private String name;
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getName() {
-        return name;
-    }
-
     @Override
     public void draw(Graphics canvas) {
         canvas.setColor(super.getColor());

@@ -25,4 +25,5 @@ public interface Shape {
     /* Redraw the shape on the canvas */
     public void draw(Graphics canvas);
 
+    public String toString();
 }
