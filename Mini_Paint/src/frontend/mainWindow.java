@@ -23,6 +23,12 @@ public class mainWindow extends JFrame {
     private JButton squareButton;
     private JButton rectangleButton;
     private JPanel canvasPanel;
+    private JButton undoButton;
+    private JButton redoButton;
+    private JButton saveButton;
+    private JButton loadButton;
+    private JButton resizeButton;
+    private JButton moveButton;
     private PaintEngine paintEngine;
     private CanvasPanel canvas;
     private Map<String, Shape> shapesList;
