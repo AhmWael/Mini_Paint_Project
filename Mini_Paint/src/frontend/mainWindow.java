@@ -225,60 +225,70 @@ public class mainWindow extends JFrame {
                 }
             }
         });
+        resizeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paintEngine.saveToFile("Shapes_List.txt");
-//                JFileChooser fileChooser = new JFileChooser();
-//                fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
-//                    public boolean accept(java.io.File f) {
-//                        if (f.getName().endsWith(".txt") || f.isDirectory()) {
-//                            return true;
-//                        }
-//                        return false;
-//                    }
-//
-//                    public String getDescription() {
-//                        return "TXT files";
-//                    }
-//                });
-//                int returnValue = fileChooser.showSaveDialog(null);
-//                if (returnValue == JFileChooser.APPROVE_OPTION) {
-//                    String path = fileChooser.getSelectedFile().getAbsolutePath();
-//                    paintEngine.saveToFile(path);
-//                }
+                if(chooseShapeBox.getItemCount() == 0) {
+                    JOptionPane.showMessageDialog(null, "No shapes to save", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+                    public boolean accept(java.io.File f) {
+                        return f.isDirectory() || f.getName().toLowerCase().endsWith(".txt");
+                    }
+
+                    public String getDescription() {
+                        return "Text Files (*.txt)";
+                    }
+                });
+                fileChooser.setDialogTitle("Save Shapes");
+                fileChooser.setCurrentDirectory(new java.io.File("."));
+                int returnValue = fileChooser.showSaveDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    java.io.File selectedFile = fileChooser.getSelectedFile();
+                    String path = selectedFile.getAbsolutePath();
+                    if (!path.toLowerCase().endsWith(".txt")) {
+                        path += ".txt";
+                    }
+                    paintEngine.saveToFile(path);
+                }
             }
         });
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paintEngine.loadFromFile("Shapes_List.txt", chooseShapeBox);
-                canvas.repaint();
-//                JFileChooser fileChooser = new JFileChooser();
-//                fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
-//                    public boolean accept(java.io.File f) {
-//                        if (f.getName().endsWith(".txt") || f.isDirectory()) {
-//                            return true;
-//                        }
-//                        return false;
-//                    }
-//
-//                    public String getDescription() {
-//                        return "TXT files";
-//                    }
-//                });
-//                int returnValue = fileChooser.showOpenDialog(null);
-//                if (returnValue == JFileChooser.APPROVE_OPTION) {
-//                    String path = fileChooser.getSelectedFile().getAbsolutePath();
-//                    paintEngine.loadFromFile(path);
-//                    Shape[] shapes = paintEngine.getShapes();
-//                    for (Shape shape : shapes) {
-//                        chooseShapeBox.addItem(shape.getName());
-//                    }
-//                    canvas.repaint();
-//                }
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+                    public boolean accept(java.io.File f) {
+                        if (f.getName().endsWith(".txt") || f.isDirectory()) {
+                            return true;
+                        }
+                        return false;
+                    }
+
+                    public String getDescription() {
+                        return "Text Files (*.txt)";
+                    }
+                });
+                fileChooser.setDialogTitle("Choose a file to load shapes from");
+                fileChooser.setCurrentDirectory(new java.io.File("."));
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    String path = fileChooser.getSelectedFile().getAbsolutePath();
+                    paintEngine.loadFromFile(path, chooseShapeBox);
+                    canvas.repaint();
+                }
             }
         });
+
         undoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
