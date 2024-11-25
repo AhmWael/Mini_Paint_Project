@@ -39,6 +39,8 @@ public class PaintEngine implements DrawingEngine{
     public void saveToFile(String path) {
         try{
             BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+            writer.write("SHAPES_FILE_V1"); // Custom signature to ensure file type
+            writer.newLine();
             for (Shape shape : shapes) {
                 writer.write(shape.toString());
                 writer.newLine();
@@ -54,6 +56,10 @@ public class PaintEngine implements DrawingEngine{
     public void loadFromFile(String path, JComboBox chooseShapeBox) {
         try{
             BufferedReader reader = new BufferedReader(new FileReader(path));
+            String signature = reader.readLine();
+            if (!"SHAPES_FILE_V1".equals(signature)) {
+                throw new IOException("Invalid file format");
+            }
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(",");
