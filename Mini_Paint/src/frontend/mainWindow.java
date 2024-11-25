@@ -228,7 +228,7 @@ public class mainWindow extends JFrame {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paintEngine.saveToFile("path");
+                paintEngine.saveToFile("Shapes_List.txt");
 //                JFileChooser fileChooser = new JFileChooser();
 //                fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
 //                    public boolean accept(java.io.File f) {
@@ -252,6 +252,8 @@ public class mainWindow extends JFrame {
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                paintEngine.loadFromFile("Shapes_List.txt", chooseShapeBox);
+                canvas.repaint();
 //                JFileChooser fileChooser = new JFileChooser();
 //                fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
 //                    public boolean accept(java.io.File f) {
@@ -275,6 +277,18 @@ public class mainWindow extends JFrame {
 //                    }
 //                    canvas.repaint();
 //                }
+            }
+        });
+        undoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        redoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
