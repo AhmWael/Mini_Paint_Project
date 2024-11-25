@@ -31,4 +31,14 @@ public class PaintEngine implements DrawingEngine{
             shape.draw(canvas);
         }
     }
+
+    public void saveToFile(String path) {
+        for (Shape shape : shapes) {
+            System.out.println(shape.toString());
+        }
+    }
+
+    public void loadFromFile(String path) {
+
+    }
 }

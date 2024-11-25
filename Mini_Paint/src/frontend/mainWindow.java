@@ -225,6 +225,58 @@ public class mainWindow extends JFrame {
                 }
             }
         });
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                paintEngine.saveToFile("path");
+//                JFileChooser fileChooser = new JFileChooser();
+//                fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+//                    public boolean accept(java.io.File f) {
+//                        if (f.getName().endsWith(".txt") || f.isDirectory()) {
+//                            return true;
+//                        }
+//                        return false;
+//                    }
+//
+//                    public String getDescription() {
+//                        return "TXT files";
+//                    }
+//                });
+//                int returnValue = fileChooser.showSaveDialog(null);
+//                if (returnValue == JFileChooser.APPROVE_OPTION) {
+//                    String path = fileChooser.getSelectedFile().getAbsolutePath();
+//                    paintEngine.saveToFile(path);
+//                }
+            }
+        });
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                JFileChooser fileChooser = new JFileChooser();
+//                fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+//                    public boolean accept(java.io.File f) {
+//                        if (f.getName().endsWith(".txt") || f.isDirectory()) {
+//                            return true;
+//                        }
+//                        return false;
+//                    }
+//
+//                    public String getDescription() {
+//                        return "TXT files";
+//                    }
+//                });
+//                int returnValue = fileChooser.showOpenDialog(null);
+//                if (returnValue == JFileChooser.APPROVE_OPTION) {
+//                    String path = fileChooser.getSelectedFile().getAbsolutePath();
+//                    paintEngine.loadFromFile(path);
+//                    Shape[] shapes = paintEngine.getShapes();
+//                    for (Shape shape : shapes) {
+//                        chooseShapeBox.addItem(shape.getName());
+//                    }
+//                    canvas.repaint();
+//                }
+            }
+        });
     }
 
     public static void main(String[] args) {
