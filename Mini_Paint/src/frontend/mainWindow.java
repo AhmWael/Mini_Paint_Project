@@ -173,7 +173,9 @@ public class mainWindow extends JFrame {
                 Shape[] shapes = paintEngine.getShapes();
                 for (Shape shape : shapes) {
                     if (shape.getName().equals(selectedShape)) {
+                        paintEngine.updateShape();
                         shape.setFillColor(color);
+                        //paintEngine.updateShape();
                         break;
                     }
                 }
@@ -215,6 +217,7 @@ public class mainWindow extends JFrame {
                         if(dialog.getStatus().equals("Cancel")) {
                             return;
                         }
+                        paintEngine.updateShape();
                         String x = dialog.getxTF();
                         String y = dialog.getyTF();
                         shape.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
@@ -284,6 +287,7 @@ public class mainWindow extends JFrame {
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     String path = fileChooser.getSelectedFile().getAbsolutePath();
                     paintEngine.loadFromFile(path, chooseShapeBox);
+                    updateShapesCounts();
                     canvas.repaint();
                 }
             }
@@ -292,15 +296,45 @@ public class mainWindow extends JFrame {
         undoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                paintEngine.undo();
+                canvas.repaint();
+                updateDropDown();
             }
         });
         redoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                paintEngine.redo();
+                canvas.repaint();
+                updateDropDown();
             }
         });
+    }
+
+    private void updateDropDown() {
+        chooseShapeBox.removeAllItems();
+        Shape[] shapes = paintEngine.getShapes();
+        for (Shape shape : shapes) {
+            chooseShapeBox.addItem(shape.getName());
+        }
+    }
+
+    private void updateShapesCounts(){
+        Shape[] shapes = paintEngine.getShapes();
+        for (Shape shape : shapes) {
+            if(shape instanceof CircleShape){
+                circleCount++;
+            }
+            else if(shape instanceof LineSegmentShape){
+                lineCount++;
+            }
+            else if(shape instanceof SquareShape){
+                squareCount++;
+            }
+            else if(shape instanceof RectangleShape){
+                rectangleCount++;
+            }
+        }
     }
 
     public static void main(String[] args) {

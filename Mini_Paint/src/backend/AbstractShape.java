@@ -1,7 +1,7 @@
 package backend;
 
 import java.awt.*;
-import java.util.Map;
+import java.util.*;
 
 public abstract class AbstractShape implements Shape {
     private Point position;
