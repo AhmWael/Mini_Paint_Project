@@ -3,24 +3,24 @@ package frontend;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class MoveShapeDialog extends JDialog {
+public class LineResizeDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField xTF;
-    private JTextField yTF;
+    private JTextField x2TF;
+    private JTextField y2TF;
     private CanvasPanel canvas;
     private String status;
 
-    public MoveShapeDialog(CanvasPanel canvas, int x, int y) {
+    public LineResizeDialog(CanvasPanel canvas, int x, int y) {
         this.canvas = canvas;
         setContentPane(contentPane);
-        setTitle("Move Shape");
+        setTitle("Resize Line Segment");
         getRootPane().setDefaultButton(buttonOK);
         pack();
         setLocationRelativeTo(null);
-        xTF.setText(String.valueOf(x));
-        yTF.setText(String.valueOf(y));
+        x2TF.setText(String.valueOf(x));
+        y2TF.setText(String.valueOf(y));
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -55,8 +55,8 @@ public class MoveShapeDialog extends JDialog {
 
     private void onOK() {
         status = "OK";
-        String x = xTF.getText();
-        String y = yTF.getText();
+        String x = x2TF.getText();
+        String y = y2TF.getText();
         if (x.isEmpty() || y.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -75,12 +75,12 @@ public class MoveShapeDialog extends JDialog {
         dispose();
     }
 
-    public String getxTF() {
-        return xTF.getText();
+    public String getx2TF() {
+        return x2TF.getText();
     }
 
-    public String getyTF() {
-        return yTF.getText();
+    public String gety2TF() {
+        return y2TF.getText();
     }
 
     public String getStatus() {

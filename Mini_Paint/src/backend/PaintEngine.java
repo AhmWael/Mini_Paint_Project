@@ -67,6 +67,8 @@ public class PaintEngine implements DrawingEngine{
                 throw new IOException("Invalid file format");
             }
             chooseShapeBox.removeAllItems();
+            saveState();
+            shapes.clear();
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(",");

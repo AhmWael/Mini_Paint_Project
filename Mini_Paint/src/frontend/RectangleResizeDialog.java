@@ -3,24 +3,24 @@ package frontend;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class MoveShapeDialog extends JDialog {
+public class RectangleResizeDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField xTF;
-    private JTextField yTF;
+    private JTextField widthTF;
+    private JTextField heightTF;
     private CanvasPanel canvas;
     private String status;
 
-    public MoveShapeDialog(CanvasPanel canvas, int x, int y) {
+    public RectangleResizeDialog(CanvasPanel canvas, int width, int height) {
         this.canvas = canvas;
         setContentPane(contentPane);
-        setTitle("Move Shape");
+        setTitle("Resize rectangle");
         getRootPane().setDefaultButton(buttonOK);
         pack();
         setLocationRelativeTo(null);
-        xTF.setText(String.valueOf(x));
-        yTF.setText(String.valueOf(y));
+        widthTF.setText(String.valueOf(width));
+        heightTF.setText(String.valueOf(height));
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -55,16 +55,16 @@ public class MoveShapeDialog extends JDialog {
 
     private void onOK() {
         status = "OK";
-        String x = xTF.getText();
-        String y = yTF.getText();
-        if (x.isEmpty() || y.isEmpty()) {
+        String width = widthTF.getText();
+        String height = heightTF.getText();
+        if (width.isEmpty() || height.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (!x.matches("^[0-9]*$") || !y.matches("^[0-9]*$")) {
+        } else if (!width.matches("^[0-9]*$") || !height.matches("^[0-9]*$")) {
             JOptionPane.showMessageDialog(this, "Please enter valid numbers", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (Integer.parseInt(x) > canvas.getWidth() || Integer.parseInt(y) > canvas.getHeight()) {
-            JOptionPane.showMessageDialog(this, "Coordinates out of bound!", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (Integer.parseInt(width) <= 0 || Integer.parseInt(height) <= 0) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numbers", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         setVisible(false);
@@ -75,12 +75,12 @@ public class MoveShapeDialog extends JDialog {
         dispose();
     }
 
-    public String getxTF() {
-        return xTF.getText();
+    public String getwidthTF() {
+        return widthTF.getText();
     }
 
-    public String getyTF() {
-        return yTF.getText();
+    public String getheightTF() {
+        return heightTF.getText();
     }
 
     public String getStatus() {

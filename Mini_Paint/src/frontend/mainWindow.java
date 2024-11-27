@@ -213,14 +213,21 @@ public class mainWindow extends JFrame {
                 Shape[] shapes = paintEngine.getShapes();
                 for (Shape shape : shapes) {
                     if (shape.getName().equals(selectedShape)) {
-                        MoveShapeDialog dialog = new MoveShapeDialog(canvas);
+                        MoveShapeDialog dialog = new MoveShapeDialog(canvas, shape.getPosition().x, shape.getPosition().y);
                         if(dialog.getStatus().equals("Cancel")) {
                             return;
                         }
                         paintEngine.updateShape();
                         String x = dialog.getxTF();
                         String y = dialog.getyTF();
+                        double x1 = shape.getPosition().getX();
+                        double y1 = shape.getPosition().getY();
+                        double dx = Double.parseDouble(x) - x1;
+                        double dy = Double.parseDouble(y) - y1;
                         shape.setPosition(new Point(Integer.parseInt(x), Integer.parseInt(y)));
+                        if(shape instanceof LineSegmentShape){
+                            shape.setProperties(Map.of("x2", shape.getProperties().get("x2") + dx, "y2", shape.getProperties().get("y2") + dy));
+                        }
                         dialog.dispose();
                         canvas.repaint();
                         break;
@@ -231,7 +238,80 @@ public class mainWindow extends JFrame {
         resizeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String selectedShape = (String) chooseShapeBox.getSelectedItem();
+                if (selectedShape == null) {
+                    return;
+                }
+                Shape[] shapes = paintEngine.getShapes();
+                for (Shape shape : shapes) {
+                    if (shape.getName().equals(selectedShape)) {
+                        if(shape instanceof CircleShape){
+                            String newRadius;
+                            while (true) {
+                                newRadius = JOptionPane.showInputDialog("Enter the new radius", shape.getProperties().get("radius"));
+                                if (newRadius == null) {
+                                    return;
+                                }
+                                if (newRadius.isEmpty() || Double.parseDouble(newRadius) <= 0) {
+                                    JOptionPane.showMessageDialog(null, "Please enter a valid radius", "Error", JOptionPane.ERROR_MESSAGE);
+                                    continue;
+                                }
+                                try {
+                                    Double.parseDouble(newRadius);
+                                    break;
+                                } catch (NumberFormatException ex) {
+                                    JOptionPane.showMessageDialog(null, "Please enter a valid number", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                            paintEngine.updateShape();
+                            shape.setProperties(Map.of("radius", Double.parseDouble(newRadius)));
+                            canvas.repaint();
+                        } else if(shape instanceof LineSegmentShape){
+                            LineResizeDialog dialog = new LineResizeDialog(canvas, shape.getProperties().get("x2").intValue(), shape.getProperties().get("y2").intValue());
+                            if(dialog.getStatus().equals("Cancel")) {
+                                return;
+                            }
+                            String x2 = dialog.getx2TF();
+                            String y2 = dialog.gety2TF();
+                            paintEngine.updateShape();
+                            shape.setProperties(Map.of("x2", Double.parseDouble(x2), "y2", Double.parseDouble(y2)));
+                            dialog.dispose();
+                            canvas.repaint();
+                        } else if(shape instanceof SquareShape){
+                            String newSide;
+                            while (true) {
+                                newSide = JOptionPane.showInputDialog("Enter the new side length", shape.getProperties().get("side"));
+                                if (newSide == null) {
+                                    return;
+                                }
+                                if (newSide.isEmpty() || Double.parseDouble(newSide) <= 0) {
+                                    JOptionPane.showMessageDialog(null, "Please enter a valid side length", "Error", JOptionPane.ERROR_MESSAGE);
+                                    continue;
+                                }
+                                try {
+                                    Double.parseDouble(newSide);
+                                    break;
+                                } catch (NumberFormatException ex) {
+                                    JOptionPane.showMessageDialog(null, "Please enter a valid number", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                            paintEngine.updateShape();
+                            shape.setProperties(Map.of("side", Double.parseDouble(newSide)));
+                            canvas.repaint();
+                        } else if(shape instanceof RectangleShape){
+                            RectangleResizeDialog dialog = new RectangleResizeDialog(canvas, shape.getProperties().get("width").intValue(), shape.getProperties().get("height").intValue());
+                            if(dialog.getStatus().equals("Cancel")) {
+                                return;
+                            }
+                            String width = dialog.getwidthTF();
+                            String height = dialog.getheightTF();
+                            paintEngine.updateShape();
+                            shape.setProperties(Map.of("width", Double.parseDouble(width), "height", Double.parseDouble(height)));
+                            dialog.dispose();
+                            canvas.repaint();
+                        }
+                    }
+                }
             }
         });
 
