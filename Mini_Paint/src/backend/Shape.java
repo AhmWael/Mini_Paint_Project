@@ -5,6 +5,9 @@ import java.util.*;
 
 public interface Shape {
 
+    public void setName(String name);
+    public String getName();
+
     /* Set Position */
     public void setPosition(Point position);
     public Point getPosition();
@@ -22,4 +25,5 @@ public interface Shape {
     /* Redraw the shape on the canvas */
     public void draw(Graphics canvas);
 
+    public String toString();
 }
